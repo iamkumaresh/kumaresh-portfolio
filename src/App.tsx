@@ -28,7 +28,7 @@ const Navbar = ({ theme, toggleTheme }: { theme: string, toggleTheme: () => void
             className="w-10 h-10 rounded-full overflow-hidden border-2 border-neutral-200 dark:border-neutral-800 shadow-sm"
           >
             <img 
-              src="/Photo.jpg" 
+              src="/assets/Photo.jpg" 
               alt="Kumaresh Jana" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
@@ -192,7 +192,7 @@ const Hero = () => {
         >
           <div className="relative w-full max-w-[500px] aspect-square rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white dark:border-neutral-800 group">
              <img 
-               src="/Photo.jpg" 
+               src="/assets/Photo.jpg" 
                alt="Kumaresh Jana" 
                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                referrerPolicy="no-referrer"
@@ -383,28 +383,28 @@ const Projects = () => {
     {
       title: "SignFlux - Gesture to Speech",
       category: "Development / AI",
-      image: "/SF.png",
+      image: "/assets/SF.png",
       //link: "https://github.com/iamkumaresh",
       demoLink: "https://gesture-to-speech.vercel.app/"
     },
     {
       title: "Canteen Management System",
       category: "Web Development",
-      image: "/CMS1.png",
+      image: "/assets/CMS1.png",
       //link: "https://github.com/iamkumaresh",
       demoLink: "https://iamkumaresh.github.io/Canteen-Management-System/"
     },
     {
       title: "Simon Game",
       category: "JavaScript / Game",
-      image: "/SG.png",
+      image: "/assets/SG.png",
       //link: "https://github.com/iamkumaresh",
       demoLink: "https://iamkumaresh.github.io/Simon-Game/"
     },
     {
       title: "Spotify Clone",
       category: "Frontend",
-      image: "/SC.png",
+      image: "/assets/SC.png",
       //link: "https://github.com/iamkumaresh",
       demoLink: "https://iamkumaresh.github.io/Spotify-Clone/"
     }
