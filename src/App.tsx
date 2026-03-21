@@ -655,7 +655,7 @@ const Contact = () => {
             <div className="space-y-2">
               <span className="block text-neutral-800 dark:text-neutral-400 text-xs uppercase tracking-widest">Call Me</span>
               <a href="tel:+918159828371" className="text-xl font-medium hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors flex items-center justify-center gap-2">
-                <Phone size={18} /> +91 8159828371
+                <Phone size={18} /> +91 8159****71
               </a>
             </div>
 
@@ -707,7 +707,7 @@ const Footer = () => {
       <div className="section-container flex flex-col md:flex-row justify-between items-center gap-6">
         <p>© 2026 Kumaresh Jana. Built with passion ⁠♡⁠‿⁠♡</p>
         <div className="flex items-center gap-8">
-          <p className="flex items-center gap-2"><Phone size={14} /> +91 8159828371</p>
+          <p className="flex items-center gap-2"><Phone size={14} /> +91 8159****71</p>
           <motion.button
             onClick={scrollToTop}
             whileHover={{ y: -3 }}
