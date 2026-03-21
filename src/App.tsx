@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Github, Linkedin, Mail, ExternalLink, Code2, Palette, Terminal, User, Facebook, Instagram, Phone, Download, Sun, Moon, Menu, X, ChevronUp, Send, CheckCircle, Loader2 } from "lucide-react";
+import { Github, Linkedin, Mail, ExternalLink, Code2, Palette, Terminal, User, Facebook, Instagram, Phone, Download, Sun, Moon, Menu, X, ChevronUp, Send, CheckCircle, Loader2, Monitor } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 
 const Navbar = ({ theme, toggleTheme }: { theme: string, toggleTheme: () => void }) => {
@@ -59,10 +59,13 @@ const Navbar = ({ theme, toggleTheme }: { theme: string, toggleTheme: () => void
           </div>
           <button 
             onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors"
+            className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors flex items-center gap-2"
             aria-label="Toggle theme"
           >
-            {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
+            {theme === "light" && <Moon size={20} />}
+            {theme === "dark" && <Sun size={20} />}
+            {theme === "system" && <Monitor size={20} />}
+            <span className="text-[10px] uppercase tracking-widest font-bold opacity-50">{theme}</span>
           </button>
         </div>
 
@@ -70,9 +73,11 @@ const Navbar = ({ theme, toggleTheme }: { theme: string, toggleTheme: () => void
         <div className="flex md:hidden items-center gap-4">
           <button 
             onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+            className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors flex items-center gap-2"
           >
-            {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
+            {theme === "light" && <Moon size={20} />}
+            {theme === "dark" && <Sun size={20} />}
+            {theme === "system" && <Monitor size={20} />}
           </button>
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -719,19 +724,43 @@ const Footer = () => {
 };
 
 export default function Portfolio() {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem("theme");
+      if (saved) return saved;
+      return "system";
+    }
+    return "dark";
+  });
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    setTheme(savedTheme);
-    document.documentElement.classList.toggle("dark", savedTheme === "dark");
-  }, []);
+    const applyTheme = (t: string) => {
+      if (t === "system") {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle("dark", prefersDark);
+      } else {
+        document.documentElement.classList.toggle("dark", t === "dark");
+      }
+    };
+
+    applyTheme(theme);
+
+    if (theme === "system") {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = (e: MediaQueryListEvent) => {
+        document.documentElement.classList.toggle("dark", e.matches);
+      };
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
+  }, [theme]);
 
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    const themes = ["light", "dark", "system"];
+    const nextIndex = (themes.indexOf(theme) + 1) % themes.length;
+    const nextTheme = themes[nextIndex];
+    setTheme(nextTheme);
+    localStorage.setItem("theme", nextTheme);
   };
 
   return (
