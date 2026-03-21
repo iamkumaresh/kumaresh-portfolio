@@ -724,14 +724,8 @@ const Footer = () => {
 };
 
 export default function Portfolio() {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem("theme");
-      if (saved) return saved;
-      return "system";
-    }
-    return "dark";
-  });
+   const [theme, setTheme] = useState("system");
+
 
   useEffect(() => {
     const applyTheme = (t: string) => {
