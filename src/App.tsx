@@ -654,7 +654,7 @@ const Contact = () => {
             
             <div className="space-y-2">
               <span className="block text-neutral-800 dark:text-neutral-400 text-xs uppercase tracking-widest">Call Me</span>
-              <a href="tel:+918159828371" className="text-xl font-medium hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors flex items-center justify-center gap-2">
+              <a href="tel:+918159****71" className="text-xl font-medium hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors flex items-center justify-center gap-2">
                 <Phone size={18} /> +91 8159****71
               </a>
             </div>
