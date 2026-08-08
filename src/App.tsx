@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Github, Linkedin, Mail, ExternalLink, Menu, X, ChevronUp, Send, CheckCircle, Loader2, Instagram, Facebook } from "lucide-react";
+import { Github, Linkedin, Mail, ExternalLink, Menu, X, ChevronUp, Send, CheckCircle, Loader2, Instagram, Facebook, Phone } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { certificatesData, Certificate } from "./data/certificates";
 
@@ -1496,7 +1496,7 @@ const Footer = () => {
           <p>© 2026 Kumaresh Jana. Built with passion.</p>
         </div>
         <div className="flex items-center gap-8">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-[#777777]">+91 8159****71</p>
+          <p className="font-mono text-[10px] uppercase tracking-wider text-[#777777] flex items-center gap-2"><Phone size={12} /> +91 8159****71</p>
           <button
             onClick={scrollToTop}
             className="p-3 bg-[#0D0D0D] border border-white/[0.04] rounded-md text-[#777777] hover:text-[#050505] hover:bg-[#D7FF3F] hover:border-[#D7FF3F] transition-all cursor-pointer"
