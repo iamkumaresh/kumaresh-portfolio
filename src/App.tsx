@@ -984,6 +984,15 @@ const Projects = () => {
     },
     {
       num: "05",
+      title: "Notes Nexus",
+      subtitle: "JIS University Study Hub — Notes, PYQs & Student Marketplace",
+      category: "EdTech / Student Productivity Platform",
+      image: "/assets/NN.png",
+      demoLink: "https://notes-nexus-jisu.vercel.app/",
+      tech: ["Next.js 16 (App Router, React 19)", "TypeScript + JavaScript", "Tailwind CSS 4", "Cloudinary", "Supabase", "Responsive Design"]
+    },
+    {
+      num: "06",
       title: "CMS APP",
       subtitle: "Android application for canteen management",
       category: "Full Stack Development",
