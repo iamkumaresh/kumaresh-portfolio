@@ -676,7 +676,7 @@ const Hero = () => {
 // --- ABOUT SECTION COMPONENT (Minimalist Editorial) ---
 const About = () => {
   return (
-    <section id="about" className="py-36 md:py-48 bg-[#050505] border-y border-white/[0.03] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
+    <section id="about" className="py-24 md:py-32 bg-[#050505] border-y border-white/[0.03] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
       <div className="max-w-[1360px] mx-auto">
         
         {/* Core Large Editorial Statement */}
@@ -790,7 +790,7 @@ const Education = () => {
   ];
 
   return (
-    <section id="education" className="py-36 md:py-48 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
+    <section id="education" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
       <div className="max-w-[1360px] mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -865,7 +865,7 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="py-36 md:py-48 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
+    <section id="skills" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
       <div className="max-w-[1360px] mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -1005,7 +1005,7 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="py-36 md:py-48 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
+    <section id="projects" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
       <div className="max-w-[1360px] mx-auto">
         
         {/* Section Header */}
@@ -1014,7 +1014,7 @@ const Projects = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6"
+          className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 md:mb-16 gap-6"
         >
           <div>
             <span className="text-meta text-[#777777] block mb-4">04 / SELECTED WORK</span>
@@ -1041,7 +1041,7 @@ const Projects = () => {
         </motion.div>
 
         {/* Clean Responsive Horizontal Grid (3 Cols Desktop, 2 Cols Tablet, 1 Col Mobile) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 md:pt-0">
           {projects.map((project, idx) => (
             <motion.div
               key={idx}
@@ -1126,7 +1126,7 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
   const [showAllCerts, setShowAllCerts] = useState(false);
 
   return (
-    <section id="certifications" className="py-36 md:py-48 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
+    <section id="certifications" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
       <div className="max-w-[1360px] mx-auto">
         
         {/* Section Header */}
@@ -1454,7 +1454,7 @@ const ContactForm = () => {
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-36 md:py-48 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
+    <section id="contact" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
       <div className="max-w-[1360px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           
