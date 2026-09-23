@@ -945,6 +945,8 @@ const Skills = () => {
 
 // --- SELECTED PROJECTS SECTION COMPONENT (Clean Organized Showcase Grid) ---
 const Projects = () => {
+  const [showAllProjects, setShowAllProjects] = useState(false);
+
   const projects = [
     {
       num: "01",
@@ -1018,14 +1020,24 @@ const Projects = () => {
             <span className="text-meta text-[#777777] block mb-4">04 / SELECTED WORK</span>
             <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-[#F4F2ED]">PROJECTS.</h2>
           </div>
-          <a 
-            href="https://github.com/iamkumaresh" 
-            target="_blank"
-            data-cursor="external"
-            className="flex items-center gap-2 text-xs font-mono tracking-widest text-[#F4F2ED] hover:text-[#D7FF3F] transition-all pb-1 border-b border-white/[0.08] hover:border-[#D7FF3F]"
-          >
-            GITHUB PROFILE <ExternalLink size={14} />
-          </a>
+          <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+            <a 
+              href="https://github.com/iamkumaresh" 
+              target="_blank"
+              data-cursor="external"
+              className="flex items-center gap-2 text-xs font-mono tracking-widest text-[#F4F2ED] hover:text-[#D7FF3F] transition-all pb-1 border-b border-white/[0.08] hover:border-[#D7FF3F]"
+            >
+              GITHUB PROFILE <ExternalLink size={14} />
+            </a>
+            <button
+              type="button"
+              onClick={() => setShowAllProjects((prev) => !prev)}
+              aria-expanded={showAllProjects}
+              className="md:hidden px-3.5 py-1.5 bg-[#D7FF3F] text-[#050505] font-display font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 cursor-pointer select-none hover:shadow-[0_0_15px_rgba(215,255,63,0.30)] transition-all"
+            >
+              {showAllProjects ? "Show Less" : "View All"} <span className="text-[12px]">{showAllProjects ? "↑" : "↓"}</span>
+            </button>
+          </div>
         </motion.div>
 
         {/* Clean Responsive Horizontal Grid (3 Cols Desktop, 2 Cols Tablet, 1 Col Mobile) */}
@@ -1047,7 +1059,9 @@ const Projects = () => {
               tabIndex={0}
               role="button"
               aria-label={`View demo for project: ${project.title} — ${project.subtitle}`}
-              className="group cursor-pointer flex flex-col bg-white/[0.01] border border-white/[0.05] rounded-[10px] p-4 transition-all duration-300 hover:-translate-y-[4px] hover:border-[#D7FF3F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] focus:outline-none focus:ring-1 focus:ring-[#D7FF3F]"
+              className={`group cursor-pointer flex-col bg-white/[0.01] border border-white/[0.05] rounded-[10px] p-4 transition-all duration-300 hover:-translate-y-[4px] hover:border-[#D7FF3F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] focus:outline-none focus:ring-1 focus:ring-[#D7FF3F] ${
+                idx > 0 && !showAllProjects ? "hidden md:flex" : "flex"
+              }`}
             >
               {/* Image Preview (Consistent 16/10 aspect ratio, 55-65% card height flow) */}
               <div className="aspect-[16/10] w-full overflow-hidden rounded-[6px] relative bg-[#0D0D0D]" data-cursor="project">
@@ -1109,6 +1123,8 @@ const Projects = () => {
 
 // --- CERTIFICATIONS SECTION COMPONENT (Credential Card Grid) ---
 const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate) => void }) => {
+  const [showAllCerts, setShowAllCerts] = useState(false);
+
   return (
     <section id="certifications" className="py-36 md:py-48 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
       <div className="max-w-[1360px] mx-auto">
@@ -1119,10 +1135,20 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-16"
+          className="flex justify-between items-end mb-16 gap-6"
         >
-          <span className="text-meta text-[#777777] block mb-4">05 / CREDENTIAL ARCHIVE</span>
-          <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-[#F4F2ED]">CERTIFICATIONS.</h2>
+          <div>
+            <span className="text-meta text-[#777777] block mb-4">05 / CREDENTIAL ARCHIVE</span>
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-[#F4F2ED]">CERTIFICATIONS.</h2>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowAllCerts((prev) => !prev)}
+            aria-expanded={showAllCerts}
+            className="md:hidden px-3.5 py-1.5 bg-[#D7FF3F] text-[#050505] font-display font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 cursor-pointer select-none hover:shadow-[0_0_15px_rgba(215,255,63,0.30)] transition-all"
+          >
+            {showAllCerts ? "Show Less" : "View All"} <span className="text-[12px]">{showAllCerts ? "↑" : "↓"}</span>
+          </button>
         </motion.div>
 
         {certificatesData.length === 0 ? (
@@ -1151,7 +1177,9 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
                 tabIndex={0}
                 role="button"
                 aria-label={`View certificate details for ${cert.title} issued by ${cert.issuer}`}
-                className="group cursor-pointer flex flex-col bg-white/[0.025] border border-white/[0.10] rounded-[10px] p-4 transition-all duration-300 hover:-translate-y-[4px] hover:border-[#D7FF3F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] focus:outline-none focus:ring-1 focus:ring-[#D7FF3F]"
+                className={`group cursor-pointer flex-col bg-white/[0.025] border border-white/[0.10] rounded-[10px] p-4 transition-all duration-300 hover:-translate-y-[4px] hover:border-[#D7FF3F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] focus:outline-none focus:ring-1 focus:ring-[#D7FF3F] ${
+                  idx > 0 && !showAllCerts ? "hidden md:flex" : "flex"
+                }`}
               >
                 {/* Certificate Preview container - preserves ratios without distortion */}
                 <div className="aspect-[16/10] w-full overflow-hidden bg-black/40 border border-white/[0.05] rounded-[6px] relative flex items-center justify-center">
