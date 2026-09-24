@@ -217,7 +217,7 @@ const Navbar = () => {
         <a 
           href="#home" 
           aria-label="Kumaresh Jana Homepage"
-          className="group flex items-center gap-2 px-3.5 bg-white/[0.03] backdrop-blur-[18px] border border-white/[0.08] hover:border-[#D7FF3F]/40 rounded-md h-[40px] transition-all select-none"
+          className="group flex items-center gap-2 px-3.5 bg-white/[0.03] backdrop-blur-[18px] border border-white/[0.08] hover:border-[#D7FF3F]/40 hover:shadow-[0_0_15px_rgba(215,255,63,0.15)] hover:scale-[1.03] active:scale-[0.96] rounded-md h-[40px] transition-all duration-200 select-none"
         >
           <span className="font-display font-extrabold text-sm tracking-tight text-[#F4F2ED] group-hover:text-[#D7FF3F] transition-colors">
             KJ<span className="text-[#D7FF3F]">.</span>
@@ -241,7 +241,7 @@ const Navbar = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className={`relative py-1 transition-colors duration-200 group flex flex-col items-center ${
+                className={`relative py-1 transition-all duration-150 active:scale-[0.96] group flex flex-col items-center ${
                   activeSection === link.href.slice(1) ? "text-[#D7FF3F]" : "text-[#777777] hover:text-[#F4F2ED]"
                 }`}
               >
@@ -276,7 +276,7 @@ const Navbar = () => {
         {/* Mobile Menu Trigger (Translucent glass styling, h-44px target) */}
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="w-[100px] h-[44px] bg-white/[0.03] backdrop-blur-[12px] border border-white/[0.10] text-[#F4F2ED] md:hidden shadow-lg text-[10px] font-mono tracking-widest hover:border-[#D7FF3F]/30 uppercase flex items-center justify-center gap-1.5 select-none rounded-[6px]"
+          className="w-[100px] h-[44px] bg-white/[0.03] backdrop-blur-[12px] border border-white/[0.10] text-[#F4F2ED] md:hidden shadow-lg text-[10px] font-mono tracking-widest hover:border-[#D7FF3F]/30 hover:scale-[1.03] active:scale-[0.97] uppercase flex items-center justify-center gap-1.5 select-none rounded-[6px] transition-all duration-200 cursor-pointer"
           aria-label="Toggle Menu"
         >
           {isMobileMenuOpen ? (
@@ -310,7 +310,7 @@ const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`text-2xl font-display font-bold tracking-wider ${activeSection === link.href.slice(1) ? "text-[#D7FF3F]" : "text-[#F4F2ED]"}`}
+                  className={`text-2xl font-display font-bold tracking-wider active:scale-[0.96] transition-transform duration-150 ${activeSection === link.href.slice(1) ? "text-[#D7FF3F]" : "text-[#F4F2ED]"}`}
                 >
                   {link.name}
                 </motion.a>
@@ -320,11 +320,11 @@ const Navbar = () => {
             <div className="absolute bottom-12 flex flex-col items-center gap-4 text-center">
               <span className="text-meta text-[10px] text-[#777777]">LET'S CONNECT</span>
               <div className="flex gap-4">
-                <a href="https://github.com/iamkumaresh" target="_blank" className="text-[#777777] hover:text-[#D7FF3F]"><Github size={18} /></a>
-                <a href="https://www.linkedin.com/in/kumaresh-jana-050406k" target="_blank" className="text-[#777777] hover:text-[#D7FF3F]"><Linkedin size={18} /></a>
-                <a href="https://www.instagram.com/_kumares_h" target="_blank" className="text-[#777777] hover:text-[#D7FF3F]"><Instagram size={18} /></a>
-                <a href="https://www.facebook.com/share/18MBiWw7D3/" target="_blank" className="text-[#777777] hover:text-[#D7FF3F]"><Facebook size={18} /></a>
-                <a href="mailto:kumaresh2106@gmail.com" className="text-[#777777] hover:text-[#D7FF3F]"><Mail size={18} /></a>
+                <a href="https://github.com/iamkumaresh" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-150 inline-flex items-center justify-center p-1"><Github size={18} /></a>
+                <a href="https://www.linkedin.com/in/kumaresh-jana-050406k" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-150 inline-flex items-center justify-center p-1"><Linkedin size={18} /></a>
+                <a href="https://www.instagram.com/_kumares_h" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-150 inline-flex items-center justify-center p-1"><Instagram size={18} /></a>
+                <a href="https://www.facebook.com/share/18MBiWw7D3/" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-150 inline-flex items-center justify-center p-1"><Facebook size={18} /></a>
+                <a href="mailto:kumaresh2106@gmail.com" className="text-[#777777] hover:text-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-150 inline-flex items-center justify-center p-1"><Mail size={18} /></a>
               </div>
             </div>
           </motion.div>
@@ -685,9 +685,9 @@ const Hero = () => {
             <motion.a 
               href="#projects" 
               data-cursor="cta"
-              whileHover={{ y: -3, filter: "brightness(1.08)" }}
+              whileHover={{ scale: 1.02, y: -2, filter: "brightness(1.08)" }}
               whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
               className="group w-full md:w-auto h-[46px] md:h-[42px] px-6 bg-[#D7FF3F] text-[#050505] font-display font-bold text-xs tracking-widest uppercase hover:shadow-[0_0_20px_rgba(215,255,63,0.30)] rounded-none flex items-center justify-center select-none cursor-pointer"
             >
               VIEW MY WORK <span className="inline-block transform group-hover:translate-x-1 transition-transform duration-200 ml-1">→</span>
@@ -696,9 +696,9 @@ const Hero = () => {
               href="/Kumaresh_Jana_Resume.pdf" 
               download="Kumaresh_Jana_Resume.pdf"
               data-cursor="cta"
-              whileHover={{ y: -3, boxShadow: "0 0 15px rgba(215,255,63,0.2)", backgroundColor: "rgba(215,255,63,0.06)" }}
+              whileHover={{ scale: 1.02, y: -2, boxShadow: "0 0 18px rgba(215,255,63,0.25)", backgroundColor: "rgba(215,255,63,0.08)" }}
               whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
               className="group w-full md:w-auto h-[46px] md:h-[42px] px-6 border border-[#D7FF3F] text-[#F4F2ED] font-display font-bold text-xs tracking-widest uppercase flex items-center justify-center gap-1.5 rounded-none select-none cursor-pointer"
             >
               DOWNLOAD RESUME <span className="inline-block transform group-hover:translate-y-0.5 transition-transform duration-200 ml-0.5">↓</span>
@@ -717,11 +717,11 @@ const Hero = () => {
             <span className="uppercase text-[#777777] select-none">LET'S CONNECT</span>
             <span className="text-white/[0.08] hidden md:inline">|</span>
             <div className="flex gap-4 justify-center">
-              <a href="https://github.com/iamkumaresh" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] transition-colors"><Github size={15} /></a>
-              <a href="https://www.linkedin.com/in/kumaresh-jana-050406k" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] transition-colors"><Linkedin size={15} /></a>
-              <a href="https://www.instagram.com/_kumares_h" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] transition-colors"><Instagram size={15} /></a>
-              <a href="https://www.facebook.com/share/18MBiWw7D3/" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] transition-colors"><Facebook size={15} /></a>
-              <a href="mailto:kumaresh2106@gmail.com" className="text-[#777777] hover:text-[#D7FF3F] transition-colors"><Mail size={15} /></a>
+              <a href="https://github.com/iamkumaresh" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-150 inline-flex items-center justify-center p-1"><Github size={15} /></a>
+              <a href="https://www.linkedin.com/in/kumaresh-jana-050406k" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-150 inline-flex items-center justify-center p-1"><Linkedin size={15} /></a>
+              <a href="https://www.instagram.com/_kumares_h" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-150 inline-flex items-center justify-center p-1"><Instagram size={15} /></a>
+              <a href="https://www.facebook.com/share/18MBiWw7D3/" target="_blank" className="text-[#777777] hover:text-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-150 inline-flex items-center justify-center p-1"><Facebook size={15} /></a>
+              <a href="mailto:kumaresh2106@gmail.com" className="text-[#777777] hover:text-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-150 inline-flex items-center justify-center p-1"><Mail size={15} /></a>
             </div>
           </div>
           
@@ -1164,10 +1164,10 @@ const Projects = () => {
             href={project.demoLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[10px] font-mono text-[#D7FF3F] font-bold inline-flex items-center gap-1.5 transition-all duration-300"
+            className="text-[10px] font-mono text-[#D7FF3F] font-bold inline-flex items-center gap-1.5 hover:brightness-110 active:scale-[0.97] transition-all duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            VIEW PROJECT <span className="transform group-hover:translate-x-0.5 transition-transform">→</span>
+            VIEW PROJECT <span className="inline-block transform group-hover:translate-x-1 transition-transform duration-200">→</span>
           </a>
         </div>
       </div>
@@ -1195,7 +1195,7 @@ const Projects = () => {
               href="https://github.com/iamkumaresh" 
               target="_blank"
               data-cursor="external"
-              className="flex items-center gap-2 text-xs font-mono tracking-widest text-[#F4F2ED] hover:text-[#D7FF3F] transition-all pb-1 border-b border-white/[0.08] hover:border-[#D7FF3F]"
+              className="flex items-center gap-2 text-xs font-mono tracking-widest text-[#F4F2ED] hover:text-[#D7FF3F] hover:scale-[1.02] active:scale-[0.97] transition-all duration-200 pb-1 border-b border-white/[0.08] hover:border-[#D7FF3F]"
             >
               GITHUB PROFILE <ExternalLink size={14} />
             </a>
@@ -1204,9 +1204,9 @@ const Projects = () => {
               onClick={() => setShowAllProjects((prev) => !prev)}
               aria-expanded={showAllProjects}
               aria-controls="projects-track"
-              className="md:hidden px-3.5 py-1.5 bg-[#D7FF3F] text-[#050505] font-display font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 cursor-pointer select-none hover:shadow-[0_0_15px_rgba(215,255,63,0.30)] transition-all"
+              className="md:hidden px-3.5 py-1.5 bg-[#D7FF3F] text-[#050505] font-display font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 cursor-pointer select-none hover:shadow-[0_0_15px_rgba(215,255,63,0.30)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-200"
             >
-              {showAllProjects ? "Show Less" : "View All"} <span className="text-[12px]">{showAllProjects ? "↑" : "↓"}</span>
+              {showAllProjects ? "Show Less" : "View All"} <span className="text-[12px] inline-block transition-transform duration-200">{showAllProjects ? "↑" : "↓"}</span>
             </button>
           </div>
         </motion.div>
@@ -1341,10 +1341,10 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
           href={cert.certificateUrl || cert.image}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[10px] font-mono text-[#D7FF3F] font-bold inline-flex items-center gap-1.5 transition-all duration-300"
+          className="text-[10px] font-mono text-[#D7FF3F] font-bold inline-flex items-center gap-1.5 hover:brightness-110 active:scale-[0.97] transition-all duration-200"
           onClick={(e) => e.stopPropagation()}
         >
-          VIEW CERTIFICATE <span className="transform group-hover:translate-x-0.5 transition-transform">→</span>
+          VIEW CERTIFICATE <span className="inline-block transform group-hover:translate-x-1 transition-transform duration-200">→</span>
         </a>
       </div>
     </motion.div>
@@ -1371,9 +1371,9 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
             onClick={() => setShowAllCerts((prev) => !prev)}
             aria-expanded={showAllCerts}
             aria-controls="certs-track"
-            className="md:hidden px-3.5 py-1.5 bg-[#D7FF3F] text-[#050505] font-display font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 cursor-pointer select-none hover:shadow-[0_0_15px_rgba(215,255,63,0.30)] transition-all"
+            className="md:hidden px-3.5 py-1.5 bg-[#D7FF3F] text-[#050505] font-display font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 cursor-pointer select-none hover:shadow-[0_0_15px_rgba(215,255,63,0.30)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-200"
           >
-            {showAllCerts ? "Show Less" : "View All"} <span className="text-[12px]">{showAllCerts ? "↑" : "↓"}</span>
+            {showAllCerts ? "Show Less" : "View All"} <span className="text-[12px] inline-block transition-transform duration-200">{showAllCerts ? "↑" : "↓"}</span>
           </button>
         </motion.div>
 
@@ -1623,7 +1623,7 @@ const ContactForm = () => {
           data-cursor="cta"
           disabled={status === "sending" || status === "success"}
           type="submit"
-          className="w-full bg-[#D7FF3F] text-[#050505] py-4 rounded-none font-display font-bold text-sm tracking-wider flex items-center justify-center gap-2 hover:bg-[#F4F2ED] hover:text-[#050505] transition-all disabled:opacity-75 disabled:hover:bg-[#D7FF3F] cursor-pointer"
+          className="w-full bg-[#D7FF3F] text-[#050505] py-4 rounded-none font-display font-bold text-sm tracking-wider flex items-center justify-center gap-2 hover:bg-[#F4F2ED] hover:text-[#050505] hover:scale-[1.01] active:scale-[0.98] transition-all duration-200 disabled:opacity-75 disabled:hover:scale-100 disabled:hover:bg-[#D7FF3F] cursor-pointer select-none"
         >
           {status === "idle" && (
             <>
@@ -1688,22 +1688,22 @@ const Contact = () => {
               
               <div>
                 <span className="text-[10px] font-mono text-[#777777] uppercase block">CALL</span>
-                <a href="tel:+918159****71" className="text-lg text-[#F4F2ED] hover:text-[#D7FF3F] transition-colors inline-block">+91 8159****71</a>
+                <a href="tel:+918159****71" className="text-lg text-[#F4F2ED] hover:text-[#D7FF3F] hover:translate-x-1 transition-all duration-200 inline-block">+91 8159****71</a>
               </div>
 
               <div>
                 <span className="text-[10px] font-mono text-[#777777] uppercase block">EMAIL</span>
-                <a href="mailto:kumaresh2106@gmail.com" className="text-lg text-[#F4F2ED] hover:text-[#D7FF3F] transition-colors border-b border-white/[0.08] pb-0.5">
+                <a href="mailto:kumaresh2106@gmail.com" className="text-lg text-[#F4F2ED] hover:text-[#D7FF3F] transition-all duration-200 border-b border-white/[0.08] hover:border-[#D7FF3F] pb-0.5 inline-block">
                   kumaresh2106@gmail.com  
                 </a>
               </div>
             </div>
 
             <div className="flex flex-wrap gap-4 text-meta text-[10px] text-[#777777]">
-              <a href="https://github.com/iamkumaresh" target="_blank" className="hover:text-[#D7FF3F] transition-colors flex items-center gap-1.5"><Github size={14} /> GITHUB</a>
-              <a href="https://www.linkedin.com/in/kumaresh-jana-050406k" target="_blank" className="hover:text-[#D7FF3F] transition-colors flex items-center gap-1.5"><Linkedin size={14} /> LINKEDIN</a>
-              <a href="https://www.instagram.com/_kumares_h" target="_blank" className="hover:text-[#D7FF3F] transition-colors flex items-center gap-1.5"><Instagram size={14} /> INSTAGRAM</a>
-              <a href="https://www.facebook.com/share/18MBiWw7D3/" target="_blank" className="hover:text-[#D7FF3F] transition-colors flex items-center gap-1.5"><Facebook size={14} /> FACEBOOK</a>
+              <a href="https://github.com/iamkumaresh" target="_blank" className="hover:text-[#D7FF3F] hover:scale-105 active:scale-95 transition-all duration-150 inline-flex items-center gap-1.5"><Github size={14} /> GITHUB</a>
+              <a href="https://www.linkedin.com/in/kumaresh-jana-050406k" target="_blank" className="hover:text-[#D7FF3F] hover:scale-105 active:scale-95 transition-all duration-150 inline-flex items-center gap-1.5"><Linkedin size={14} /> LINKEDIN</a>
+              <a href="https://www.instagram.com/_kumares_h" target="_blank" className="hover:text-[#D7FF3F] hover:scale-105 active:scale-95 transition-all duration-150 inline-flex items-center gap-1.5"><Instagram size={14} /> INSTAGRAM</a>
+              <a href="https://www.facebook.com/share/18MBiWw7D3/" target="_blank" className="hover:text-[#D7FF3F] hover:scale-105 active:scale-95 transition-all duration-150 inline-flex items-center gap-1.5"><Facebook size={14} /> FACEBOOK</a>
             </div>
           </motion.div>
 
@@ -1741,7 +1741,7 @@ const Footer = () => {
           <p className="font-mono text-[10px] uppercase tracking-wider text-[#777777] flex items-center gap-2"><Phone size={12} /> +91 8159****71</p>
           <button
             onClick={scrollToTop}
-            className="p-3 bg-[#0D0D0D] border border-white/[0.04] rounded-md text-[#777777] hover:text-[#050505] hover:bg-[#D7FF3F] hover:border-[#D7FF3F] transition-all cursor-pointer"
+            className="p-3 bg-[#0D0D0D] border border-white/[0.04] rounded-md text-[#777777] hover:text-[#050505] hover:bg-[#D7FF3F] hover:border-[#D7FF3F] hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer"
             aria-label="Back to top"
           >
             <ChevronUp size={16} />
