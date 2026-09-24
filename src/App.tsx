@@ -145,16 +145,54 @@ const Navbar = () => {
     };
   }, []);
 
-  // Escape key handler to close mobile overlay menu
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
+  // Focus trap and Escape key handler to close mobile overlay menu
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setIsMobileMenuOpen(false);
+        return;
+      }
+
+      if (e.key === "Tab" && mobileMenuRef.current) {
+        const focusable = mobileMenuRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       }
     };
-    if (isMobileMenuOpen) {
-      window.addEventListener("keydown", handleKeyDown);
-    }
+
+    window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMobileMenuOpen]);
 
@@ -232,6 +270,7 @@ const Navbar = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            ref={mobileMenuRef}
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"
@@ -349,8 +388,10 @@ const TypingBio = ({ reducedMotion }: { reducedMotion: boolean }) => {
           </span>
         );
       })}
-      {/* Premium pulsing inline cursor */}
-      <span className="inline-block w-[1.5px] h-[1.1em] bg-[#D7FF3F] ml-1 align-middle animate-[pulse_1s_infinite]" />
+      {/* Premium pulsing inline cursor — pauses when reduced motion is preferred */}
+      <span className={`inline-block w-[1.5px] h-[1.1em] bg-[#D7FF3F] ml-1 align-middle motion-reduce:animate-none ${
+        reducedMotion ? "opacity-80" : "animate-[pulse_1s_infinite]"
+      }`} />
     </>
   );
 };
@@ -489,7 +530,7 @@ const Hero = () => {
         >
           <img 
             src="/assets/Photo.png" 
-            alt="Kumaresh Jana — B.Tech CSE Student and Developer" 
+            alt="Portrait of Kumaresh Jana, B.Tech CSE Student, Developer & Problem Solver" 
             fetchpriority="high"
             referrerPolicy="no-referrer"
             style={{
@@ -572,7 +613,7 @@ const Hero = () => {
           >
             <img 
               src="/assets/Photo.png" 
-              alt="Kumaresh Jana — B.Tech CSE Student and Developer (Mobile Preview)" 
+              alt="Portrait of Kumaresh Jana, B.Tech CSE Student and Developer at JIS University" 
               fetchpriority="high" 
               style={{
                 WebkitMaskImage: "radial-gradient(ellipse at 50% 45%, black 45%, transparent 88%)",
@@ -1067,7 +1108,7 @@ const Projects = () => {
               <div className="aspect-[16/10] w-full overflow-hidden rounded-[6px] relative bg-[#0D0D0D]" data-cursor="project">
                 <img 
                   src={project.image} 
-                  alt={`${project.title} — ${project.subtitle}`}
+                  alt={`Preview screenshot of ${project.title} — ${project.subtitle}`}
                   className="w-full h-full object-cover filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-300"
                   loading="lazy"
                   referrerPolicy="no-referrer"
@@ -1185,7 +1226,7 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
                 <div className="aspect-[16/10] w-full overflow-hidden bg-black/40 border border-white/[0.05] rounded-[6px] relative flex items-center justify-center">
                   <img 
                     src={cert.image} 
-                    alt={`${cert.title} Certification Credential issued by ${cert.issuer}`}
+                    alt={`Credential certificate for ${cert.title} issued by ${cert.issuer}`}
                     className="w-full h-full object-contain p-2 group-hover:scale-[1.02] transition-transform duration-300"
                     loading="lazy"
                   />
@@ -1285,7 +1326,7 @@ const LightboxModal = ({ cert, onClose }: { cert: Certificate; onClose: () => vo
         <div className="relative w-full aspect-[4/3] max-h-[70vh] bg-white/[0.01] border border-white/[0.06] flex items-center justify-center overflow-hidden">
           <img 
             src={cert.image} 
-            alt={`Detailed preview of ${cert.title} certificate credential`} 
+            alt={`Full credential document preview for ${cert.title} issued by ${cert.issuer}`} 
             className="w-full h-full object-contain p-4"
           />
         </div>
