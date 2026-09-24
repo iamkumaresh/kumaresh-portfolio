@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "motion/react";
 import { Github, Linkedin, Mail, ExternalLink, Menu, X, ChevronUp, Send, CheckCircle, Loader2, Instagram, Facebook, Phone } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { certificatesData, Certificate } from "./data/certificates";
@@ -110,6 +110,7 @@ const CustomCursor = () => {
 
 // --- NAVBAR COMPONENT ---
 const Navbar = () => {
+  const shouldReduceMotion = useReducedMotion();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
@@ -209,9 +210,9 @@ const Navbar = () => {
     <header>
       {/* Desktop Brand Wordmark / Monogram - Far Left */}
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
+        initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut", delay: 0.10 }}
+        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, ease: "easeOut", delay: 0.10 }}
         className="fixed top-8 left-6 md:left-8 lg:left-12 z-50 hidden md:flex items-center"
       >
         <a 
@@ -230,9 +231,9 @@ const Navbar = () => {
 
       {/* Floating Center Navbar (Desktop - Stagger: 100ms) */}
       <motion.nav 
-        initial={{ opacity: 0, y: -10 }}
+        initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut", delay: 0.10 }}
+        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, ease: "easeOut", delay: 0.10 }}
         className="fixed top-8 left-1/2 -translate-x-1/2 z-50 hidden md:block"
       >
         <div className="bg-white/[0.03] backdrop-blur-[18px] px-6 py-2 flex items-center justify-between border border-white/[0.08] rounded-md h-[40px]">
@@ -260,9 +261,9 @@ const Navbar = () => {
 
       {/* Open to Work Status Indicator & Menu Trigger - Top Right (Stagger: 100ms) */}
       <motion.div 
-        initial={{ opacity: 0, y: -10 }}
+        initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut", delay: 0.10 }}
+        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, ease: "easeOut", delay: 0.10 }}
         className="fixed top-6 right-6 md:top-8 md:right-8 z-50 flex items-center gap-2"
       >
         <div className="hidden sm:flex items-center gap-2 relative py-2 mr-2">
@@ -295,10 +296,10 @@ const Navbar = () => {
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"
-            initial={{ opacity: 0, y: -20 }}
+            initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -20 }}
+            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3, ease: "easeInOut" }}
             className="fixed inset-0 z-40 bg-[#050505]/98 backdrop-blur-xl flex flex-col justify-center items-center gap-8 md:hidden"
           >
             <div className="flex flex-col gap-6 text-center">
@@ -306,9 +307,9 @@ const Navbar = () => {
                 <motion.a
                   key={link.name}
                   href={link.href}
-                  initial={{ opacity: 0, y: 15 }}
+                  initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
+                  transition={shouldReduceMotion ? { duration: 0 } : { delay: i * 0.05 }}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`text-2xl font-display font-bold tracking-wider active:scale-[0.96] transition-transform duration-150 ${activeSection === link.href.slice(1) ? "text-[#D7FF3F]" : "text-[#F4F2ED]"}`}
                 >
@@ -735,17 +736,27 @@ const Hero = () => {
   );
 };
 
+// --- SECTION REVEAL CONTAINER (Reduced Motion Compliant) ---
+const SectionContainer = ({ children, className = "max-w-[1360px] mx-auto" }: { children: React.ReactNode; className?: string }) => {
+  const shouldReduceMotion = useReducedMotion();
+  return (
+    <motion.div
+      initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.55, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 // --- ABOUT SECTION COMPONENT (Minimalist Editorial) ---
 const About = () => {
   return (
     <section id="about" className="py-24 md:py-32 bg-[#050505] border-y border-white/[0.03] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <motion.div 
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.55, ease: "easeOut" }}
-        className="max-w-[1360px] mx-auto"
-      >
+      <SectionContainer>
         
         {/* Core Large Editorial Statement */}
         <div className="max-w-4xl mb-24">
@@ -799,7 +810,7 @@ const About = () => {
           </div>
 
         </div>
-      </motion.div>
+      </SectionContainer>
     </section>
   );
 };
@@ -835,13 +846,7 @@ const Education = () => {
 
   return (
     <section id="education" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <motion.div 
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.55, ease: "easeOut" }}
-        className="max-w-[1360px] mx-auto"
-      >
+      <SectionContainer>
         <div className="mb-24">
           <span className="text-meta text-[#777777] block mb-4">02 / MY ACADEMIC ROAD</span>
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-[#F4F2ED]">EDUCATION.</h2>
@@ -872,7 +877,7 @@ const Education = () => {
             </div>
           ))}
         </div>
-      </motion.div>
+      </SectionContainer>
     </section>
   );
 };
@@ -906,13 +911,7 @@ const Skills = () => {
 
   return (
     <section id="skills" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <motion.div 
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.55, ease: "easeOut" }}
-        className="max-w-[1360px] mx-auto"
-      >
+      <SectionContainer>
         <div className="mb-24">
           <span className="text-meta text-[#777777] block mb-4">03 / TECHNICAL CAPABILITIES</span>
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-[#F4F2ED]">SKILL SETS.</h2>
@@ -966,7 +965,7 @@ const Skills = () => {
           </div>
 
         </div>
-      </motion.div>
+      </SectionContainer>
     </section>
   );
 };
@@ -1138,13 +1137,7 @@ const Projects = () => {
 
   return (
     <section id="projects" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <motion.div 
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.55, ease: "easeOut" }}
-        className="max-w-[1360px] mx-auto"
-      >
+      <SectionContainer>
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 md:mb-16 gap-6">
@@ -1211,7 +1204,7 @@ const Projects = () => {
             ))}
           </div>
         )}
-      </motion.div>
+      </SectionContainer>
     </section>
   );
 };
@@ -1310,13 +1303,7 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
 
   return (
     <section id="certifications" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <motion.div 
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.55, ease: "easeOut" }}
-        className="max-w-[1360px] mx-auto"
-      >
+      <SectionContainer>
         
         {/* Section Header */}
         <div className="flex justify-between items-end mb-16 gap-6">
@@ -1383,7 +1370,7 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
             )}
           </>
         )}
-      </motion.div>
+      </SectionContainer>
     </section>
   );
 };
@@ -1618,13 +1605,7 @@ const ContactForm = () => {
 const Contact = () => {
   return (
     <section id="contact" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <motion.div 
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.55, ease: "easeOut" }}
-        className="max-w-[1360px] mx-auto"
-      >
+      <SectionContainer>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           
           {/* Left Column (Editorial Heading & Links) */}
@@ -1671,7 +1652,7 @@ const Contact = () => {
           </div>
 
         </div>
-      </motion.div>
+      </SectionContainer>
     </section>
   );
 };
@@ -1709,27 +1690,29 @@ export default function Portfolio() {
   const [lightboxCert, setLightboxCert] = useState<Certificate | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-[#F4F2ED] selection:bg-[#D7FF3F] selection:text-[#050505] relative">
-      <CustomCursor />
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Education />
-        <Skills />
-        <Projects />
-        <Certifications onOpenLightbox={setLightboxCert} />
-        <Contact />
-      </main>
-      <Footer />
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen bg-[#050505] text-[#F4F2ED] selection:bg-[#D7FF3F] selection:text-[#050505] relative">
+        <CustomCursor />
+        <Navbar />
+        <main>
+          <Hero />
+          <About />
+          <Education />
+          <Skills />
+          <Projects />
+          <Certifications onOpenLightbox={setLightboxCert} />
+          <Contact />
+        </main>
+        <Footer />
 
-      {/* LightboxModal Modal for certificate inspection */}
-      {lightboxCert && (
-        <LightboxModal 
-          cert={lightboxCert} 
-          onClose={() => setLightboxCert(null)} 
-        />
-      )}
-    </div>
+        {/* LightboxModal Modal for certificate inspection */}
+        {lightboxCert && (
+          <LightboxModal 
+            cert={lightboxCert} 
+            onClose={() => setLightboxCert(null)} 
+          />
+        )}
+      </div>
+    </MotionConfig>
   );
 }

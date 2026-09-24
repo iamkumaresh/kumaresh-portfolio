@@ -153,6 +153,23 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .carousel-track {
+    scroll-behavior: auto !important;
+  }
+
   .expandable-grid,
   .expandable-grid.is-expanded,
   .expandable-card,
