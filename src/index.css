@@ -87,6 +87,21 @@
   background: #D7FF3F;
 }
 
+/* --- MOBILE CAROUSEL TRACK & SCROLLBAR SUPPRESSION --- */
+.carousel-track {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 /* --- SMOOTH EXPANDABLE GRID FOR MOBILE VIEW ALL --- */
 .expandable-grid {
   display: grid;

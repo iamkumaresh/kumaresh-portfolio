@@ -1066,13 +1066,45 @@ const Projects = () => {
     }
   ];
 
-  const renderProjectCard = (project: typeof projects[0], idx: number, isExpandable: boolean) => (
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const projectsTrackRef = useRef<HTMLDivElement>(null);
+
+  const handleProjectsScroll = () => {
+    if (!projectsTrackRef.current) return;
+    const container = projectsTrackRef.current;
+    const scrollLeft = container.scrollLeft;
+    const firstChild = container.firstElementChild as HTMLElement | null;
+    if (!firstChild) return;
+    const cardWidth = firstChild.offsetWidth;
+    const gap = 20; // gap-5 (20px)
+    const index = Math.round(scrollLeft / (cardWidth + gap));
+    const clamped = Math.max(0, Math.min(projects.length - 1, index));
+    if (clamped !== activeProjectIndex) {
+      setActiveProjectIndex(clamped);
+    }
+  };
+
+  const scrollToProject = (index: number) => {
+    if (!projectsTrackRef.current) return;
+    const container = projectsTrackRef.current;
+    const card = container.children[index] as HTMLElement | null;
+    if (card) {
+      const cardLeft = card.offsetLeft - container.offsetLeft - (container.clientWidth - card.offsetWidth) / 2;
+      container.scrollTo({
+        left: Math.max(0, cardLeft),
+        behavior: "smooth"
+      });
+      setActiveProjectIndex(index);
+    }
+  };
+
+  const renderProjectCard = (project: typeof projects[0], idx: number) => (
     <motion.div
       key={idx}
       initial={{ opacity: 0, y: 25 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
+      transition={{ duration: 0.6, delay: Math.min(idx * 0.08, 0.4), ease: "easeOut" }}
       onClick={() => window.open(project.demoLink, "_blank", "noopener,noreferrer")}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -1083,9 +1115,10 @@ const Projects = () => {
       tabIndex={0}
       role="button"
       aria-label={`View demo for project: ${project.title} — ${project.subtitle}`}
-      style={isExpandable ? ({ "--stagger-delay": `${(idx - 1) * 50}ms` } as React.CSSProperties) : undefined}
       className={`group cursor-pointer flex flex-col bg-white/[0.01] border border-white/[0.05] rounded-[10px] p-4 transition-all duration-300 hover:-translate-y-[4px] hover:border-[#D7FF3F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] focus:outline-none focus:ring-1 focus:ring-[#D7FF3F] ${
-        isExpandable ? "expandable-card" : ""
+        showAllProjects
+          ? "w-full md:w-auto"
+          : "w-[85vw] max-w-[340px] shrink-0 snap-center md:w-auto md:max-w-none md:shrink md:snap-align-none"
       }`}
     >
       {/* Image Preview (Consistent 16/10 aspect ratio, 55-65% card height flow) */}
@@ -1170,7 +1203,7 @@ const Projects = () => {
               type="button"
               onClick={() => setShowAllProjects((prev) => !prev)}
               aria-expanded={showAllProjects}
-              aria-controls="projects-expandable"
+              aria-controls="projects-track"
               className="md:hidden px-3.5 py-1.5 bg-[#D7FF3F] text-[#050505] font-display font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 cursor-pointer select-none hover:shadow-[0_0_15px_rgba(215,255,63,0.30)] transition-all"
             >
               {showAllProjects ? "Show Less" : "View All"} <span className="text-[12px]">{showAllProjects ? "↑" : "↓"}</span>
@@ -1178,17 +1211,44 @@ const Projects = () => {
           </div>
         </motion.div>
 
-        {/* Clean Responsive Horizontal Grid (3 Cols Desktop, 2 Cols Tablet, 1 Col Mobile) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-8 pt-4 md:pt-0">
-          {projects.length > 0 && renderProjectCard(projects[0], 0, false)}
-          {projects.length > 1 && (
-            <div id="projects-expandable" className={`expandable-grid ${showAllProjects ? "is-expanded" : ""}`}>
-              <div className="expandable-inner">
-                {projects.slice(1).map((project, idx) => renderProjectCard(project, idx + 1, true))}
-              </div>
-            </div>
-          )}
+        {/* Responsive Showcase: Mobile Swipeable Carousel or Expanded Grid, Desktop Responsive Grid */}
+        <div 
+          id="projects-track"
+          ref={projectsTrackRef}
+          onScroll={handleProjectsScroll}
+          className={`pt-4 md:pt-0 ${
+            showAllProjects
+              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+              : "carousel-track flex overflow-x-auto snap-x snap-mandatory scrollbar-none gap-5 pb-4 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:overflow-visible"
+          }`}
+        >
+          {projects.map((project, idx) => renderProjectCard(project, idx))}
         </div>
+
+        {/* Animated Dot Indicators on Mobile (Hidden when View All is toggled) */}
+        {!showAllProjects && projects.length > 1 && (
+          <div 
+            className="flex md:hidden items-center justify-center gap-2 mt-4 select-none"
+            role="tablist"
+            aria-label="Projects slide pagination"
+          >
+            {projects.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                role="tab"
+                aria-selected={activeProjectIndex === i}
+                aria-label={`Go to project slide ${i + 1}`}
+                onClick={() => scrollToProject(i)}
+                className={`h-1.5 rounded-full transition-all duration-200 ease-out cursor-pointer ${
+                  activeProjectIndex === i
+                    ? "w-5 bg-[#D7FF3F]"
+                    : "w-1.5 bg-white/20 hover:bg-white/40"
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -1197,14 +1257,45 @@ const Projects = () => {
 // --- CERTIFICATIONS SECTION COMPONENT (Credential Card Grid) ---
 const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate) => void }) => {
   const [showAllCerts, setShowAllCerts] = useState(false);
+  const [activeCertIndex, setActiveCertIndex] = useState(0);
+  const certsTrackRef = useRef<HTMLDivElement>(null);
 
-  const renderCertCard = (cert: Certificate, idx: number, isExpandable: boolean) => (
+  const handleCertsScroll = () => {
+    if (!certsTrackRef.current) return;
+    const container = certsTrackRef.current;
+    const scrollLeft = container.scrollLeft;
+    const firstChild = container.firstElementChild as HTMLElement | null;
+    if (!firstChild) return;
+    const cardWidth = firstChild.offsetWidth;
+    const gap = 20; // gap-5 (20px)
+    const index = Math.round(scrollLeft / (cardWidth + gap));
+    const clamped = Math.max(0, Math.min(certificatesData.length - 1, index));
+    if (clamped !== activeCertIndex) {
+      setActiveCertIndex(clamped);
+    }
+  };
+
+  const scrollToCert = (index: number) => {
+    if (!certsTrackRef.current) return;
+    const container = certsTrackRef.current;
+    const card = container.children[index] as HTMLElement | null;
+    if (card) {
+      const cardLeft = card.offsetLeft - container.offsetLeft - (container.clientWidth - card.offsetWidth) / 2;
+      container.scrollTo({
+        left: Math.max(0, cardLeft),
+        behavior: "smooth"
+      });
+      setActiveCertIndex(index);
+    }
+  };
+
+  const renderCertCard = (cert: Certificate, idx: number) => (
     <motion.div 
       key={cert.id} 
       initial={{ opacity: 0, y: 25 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
+      transition={{ duration: 0.6, delay: Math.min(idx * 0.08, 0.4), ease: "easeOut" }}
       onClick={() => onOpenLightbox(cert)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -1215,9 +1306,10 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
       tabIndex={0}
       role="button"
       aria-label={`View certificate details for ${cert.title} issued by ${cert.issuer}`}
-      style={isExpandable ? ({ "--stagger-delay": `${(idx - 1) * 50}ms` } as React.CSSProperties) : undefined}
       className={`group cursor-pointer flex flex-col bg-white/[0.025] border border-white/[0.10] rounded-[10px] p-4 transition-all duration-300 hover:-translate-y-[4px] hover:border-[#D7FF3F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] focus:outline-none focus:ring-1 focus:ring-[#D7FF3F] ${
-        isExpandable ? "expandable-card" : ""
+        showAllCerts
+          ? "w-full md:w-auto"
+          : "w-[85vw] max-w-[340px] shrink-0 snap-center md:w-auto md:max-w-none md:shrink md:snap-align-none"
       }`}
     >
       {/* Certificate Preview container - preserves ratios without distortion */}
@@ -1278,7 +1370,7 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
             type="button"
             onClick={() => setShowAllCerts((prev) => !prev)}
             aria-expanded={showAllCerts}
-            aria-controls="certs-expandable"
+            aria-controls="certs-track"
             className="md:hidden px-3.5 py-1.5 bg-[#D7FF3F] text-[#050505] font-display font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 cursor-pointer select-none hover:shadow-[0_0_15px_rgba(215,255,63,0.30)] transition-all"
           >
             {showAllCerts ? "Show Less" : "View All"} <span className="text-[12px]">{showAllCerts ? "↑" : "↓"}</span>
@@ -1292,17 +1384,46 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
             </p>
           </div>
         ) : (
-          /* Clean 3-Column Card Grid matching Projects scope, with border-t separator */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-8 pt-8 border-t border-white/[0.08]">
-            {certificatesData.length > 0 && renderCertCard(certificatesData[0], 0, false)}
-            {certificatesData.length > 1 && (
-              <div id="certs-expandable" className={`expandable-grid ${showAllCerts ? "is-expanded" : ""}`}>
-                <div className="expandable-inner">
-                  {certificatesData.slice(1).map((cert, idx) => renderCertCard(cert, idx + 1, true))}
-                </div>
+          <>
+            {/* Responsive Showcase: Mobile Swipeable Carousel or Expanded Grid, Desktop Responsive Grid */}
+            <div 
+              id="certs-track"
+              ref={certsTrackRef}
+              onScroll={handleCertsScroll}
+              className={`pt-8 border-t border-white/[0.08] ${
+                showAllCerts
+                  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+                  : "carousel-track flex overflow-x-auto snap-x snap-mandatory scrollbar-none gap-5 pb-4 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:overflow-visible"
+              }`}
+            >
+              {certificatesData.map((cert, idx) => renderCertCard(cert, idx))}
+            </div>
+
+            {/* Animated Dot Indicators on Mobile (Hidden when View All is toggled) */}
+            {!showAllCerts && certificatesData.length > 1 && (
+              <div 
+                className="flex md:hidden items-center justify-center gap-2 mt-4 select-none"
+                role="tablist"
+                aria-label="Certifications slide pagination"
+              >
+                {certificatesData.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    role="tab"
+                    aria-selected={activeCertIndex === i}
+                    aria-label={`Go to certificate slide ${i + 1}`}
+                    onClick={() => scrollToCert(i)}
+                    className={`h-1.5 rounded-full transition-all duration-200 ease-out cursor-pointer ${
+                      activeCertIndex === i
+                        ? "w-5 bg-[#D7FF3F]"
+                        : "w-1.5 bg-white/20 hover:bg-white/40"
+                    }`}
+                  />
+                ))}
               </div>
             )}
-          </div>
+          </>
         )}
       </div>
     </section>
