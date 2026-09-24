@@ -1066,6 +1066,81 @@ const Projects = () => {
     }
   ];
 
+  const renderProjectCard = (project: typeof projects[0], idx: number, isExpandable: boolean) => (
+    <motion.div
+      key={idx}
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
+      onClick={() => window.open(project.demoLink, "_blank", "noopener,noreferrer")}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          window.open(project.demoLink, "_blank", "noopener,noreferrer");
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label={`View demo for project: ${project.title} — ${project.subtitle}`}
+      style={isExpandable ? ({ "--stagger-delay": `${(idx - 1) * 50}ms` } as React.CSSProperties) : undefined}
+      className={`group cursor-pointer flex flex-col bg-white/[0.01] border border-white/[0.05] rounded-[10px] p-4 transition-all duration-300 hover:-translate-y-[4px] hover:border-[#D7FF3F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] focus:outline-none focus:ring-1 focus:ring-[#D7FF3F] ${
+        isExpandable ? "expandable-card" : ""
+      }`}
+    >
+      {/* Image Preview (Consistent 16/10 aspect ratio, 55-65% card height flow) */}
+      <div className="aspect-[16/10] w-full overflow-hidden rounded-[6px] relative bg-[#0D0D0D]" data-cursor="project">
+        <img 
+          src={project.image} 
+          alt={`Preview screenshot of ${project.title} — ${project.subtitle}`}
+          className="w-full h-full object-cover filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-300"
+          loading="lazy"
+          referrerPolicy="no-referrer"
+        />
+        {/* Visual Bottom Accent Indicator */}
+        <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#D7FF3F] group-hover:w-full transition-all duration-300" />
+      </div>
+
+      {/* Card Meta Content */}
+      <div className="pt-4 flex-grow flex flex-col justify-between gap-4">
+        <div className="space-y-2">
+          <div className="flex justify-between items-center text-[10px] font-mono text-[#777777]">
+            <span>{project.num}</span>
+            <span className="uppercase tracking-wider">{project.category}</span>
+          </div>
+          <h3 className="text-lg font-display font-extrabold text-[#F4F2ED] group-hover:text-[#D7FF3F] transition-colors uppercase tracking-tight">
+            {project.title}
+          </h3>
+          <p className="text-[#777777] font-light text-xs line-clamp-2 leading-relaxed">
+            {project.subtitle}
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {/* Technology Tags (Separators use visual lime accents) */}
+          <div className="flex flex-wrap items-center gap-1 text-[9px] font-mono text-[#777777] uppercase tracking-wider">
+            {project.tech.map((t, tIdx) => (
+              <React.Fragment key={tIdx}>
+                {tIdx > 0 && <span className="text-[#D7FF3F] mx-1">•</span>}
+                <span>{t}</span>
+              </React.Fragment>
+            ))}
+          </div>
+
+          <a 
+            href={project.demoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[10px] font-mono text-[#D7FF3F] font-bold inline-flex items-center gap-1.5 transition-all duration-300"
+            onClick={(e) => e.stopPropagation()}
+          >
+            VIEW PROJECT <span className="transform group-hover:translate-x-0.5 transition-transform">→</span>
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+
   return (
     <section id="projects" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
       <div className="max-w-[1360px] mx-auto">
@@ -1095,6 +1170,7 @@ const Projects = () => {
               type="button"
               onClick={() => setShowAllProjects((prev) => !prev)}
               aria-expanded={showAllProjects}
+              aria-controls="projects-expandable"
               className="md:hidden px-3.5 py-1.5 bg-[#D7FF3F] text-[#050505] font-display font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 cursor-pointer select-none hover:shadow-[0_0_15px_rgba(215,255,63,0.30)] transition-all"
             >
               {showAllProjects ? "Show Less" : "View All"} <span className="text-[12px]">{showAllProjects ? "↑" : "↓"}</span>
@@ -1103,80 +1179,15 @@ const Projects = () => {
         </motion.div>
 
         {/* Clean Responsive Horizontal Grid (3 Cols Desktop, 2 Cols Tablet, 1 Col Mobile) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 md:pt-0">
-          {projects.map((project, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
-              onClick={() => window.open(project.demoLink, "_blank", "noopener,noreferrer")}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  window.open(project.demoLink, "_blank", "noopener,noreferrer");
-                }
-              }}
-              tabIndex={0}
-              role="button"
-              aria-label={`View demo for project: ${project.title} — ${project.subtitle}`}
-              className={`group cursor-pointer flex-col bg-white/[0.01] border border-white/[0.05] rounded-[10px] p-4 transition-all duration-300 hover:-translate-y-[4px] hover:border-[#D7FF3F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] focus:outline-none focus:ring-1 focus:ring-[#D7FF3F] ${
-                idx > 0 && !showAllProjects ? "hidden md:flex" : "flex"
-              }`}
-            >
-              {/* Image Preview (Consistent 16/10 aspect ratio, 55-65% card height flow) */}
-              <div className="aspect-[16/10] w-full overflow-hidden rounded-[6px] relative bg-[#0D0D0D]" data-cursor="project">
-                <img 
-                  src={project.image} 
-                  alt={`Preview screenshot of ${project.title} — ${project.subtitle}`}
-                  className="w-full h-full object-cover filter grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-300"
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-                {/* Visual Bottom Accent Indicator */}
-                <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#D7FF3F] group-hover:w-full transition-all duration-300" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-8 pt-4 md:pt-0">
+          {projects.length > 0 && renderProjectCard(projects[0], 0, false)}
+          {projects.length > 1 && (
+            <div id="projects-expandable" className={`expandable-grid ${showAllProjects ? "is-expanded" : ""}`}>
+              <div className="expandable-inner">
+                {projects.slice(1).map((project, idx) => renderProjectCard(project, idx + 1, true))}
               </div>
-
-              {/* Card Meta Content */}
-              <div className="pt-4 flex-grow flex flex-col justify-between gap-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center text-[10px] font-mono text-[#777777]">
-                    <span>{project.num}</span>
-                    <span className="uppercase tracking-wider">{project.category}</span>
-                  </div>
-                  <h3 className="text-lg font-display font-extrabold text-[#F4F2ED] group-hover:text-[#D7FF3F] transition-colors uppercase tracking-tight">
-                    {project.title}
-                  </h3>
-                  <p className="text-[#777777] font-light text-xs line-clamp-2 leading-relaxed">
-                    {project.subtitle}
-                  </p>
-                </div>
-
-                <div className="space-y-3">
-                  {/* Technology Tags (Separators use visual lime accents) */}
-                  <div className="flex flex-wrap items-center gap-1 text-[9px] font-mono text-[#777777] uppercase tracking-wider">
-                    {project.tech.map((t, tIdx) => (
-                      <React.Fragment key={tIdx}>
-                        {tIdx > 0 && <span className="text-[#D7FF3F] mx-1">•</span>}
-                        <span>{t}</span>
-                      </React.Fragment>
-                    ))}
-                  </div>
-
-                  <a 
-                    href={project.demoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[10px] font-mono text-[#D7FF3F] font-bold inline-flex items-center gap-1.5 transition-all duration-300"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    VIEW PROJECT <span className="transform group-hover:translate-x-0.5 transition-transform">→</span>
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -1186,6 +1197,66 @@ const Projects = () => {
 // --- CERTIFICATIONS SECTION COMPONENT (Credential Card Grid) ---
 const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate) => void }) => {
   const [showAllCerts, setShowAllCerts] = useState(false);
+
+  const renderCertCard = (cert: Certificate, idx: number, isExpandable: boolean) => (
+    <motion.div 
+      key={cert.id} 
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
+      onClick={() => onOpenLightbox(cert)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpenLightbox(cert);
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label={`View certificate details for ${cert.title} issued by ${cert.issuer}`}
+      style={isExpandable ? ({ "--stagger-delay": `${(idx - 1) * 50}ms` } as React.CSSProperties) : undefined}
+      className={`group cursor-pointer flex flex-col bg-white/[0.025] border border-white/[0.10] rounded-[10px] p-4 transition-all duration-300 hover:-translate-y-[4px] hover:border-[#D7FF3F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] focus:outline-none focus:ring-1 focus:ring-[#D7FF3F] ${
+        isExpandable ? "expandable-card" : ""
+      }`}
+    >
+      {/* Certificate Preview container - preserves ratios without distortion */}
+      <div className="aspect-[16/10] w-full overflow-hidden bg-black/40 border border-white/[0.05] rounded-[6px] relative flex items-center justify-center">
+        <img 
+          src={cert.image} 
+          alt={`Credential certificate for ${cert.title} issued by ${cert.issuer}`}
+          className="w-full h-full object-contain p-2 group-hover:scale-[1.02] transition-transform duration-300"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-[#050505]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <span className="text-[10px] font-mono text-[#D7FF3F] bg-[#050505] px-3 py-1.5 border border-[#D7FF3F]">VIEW CREDENTIAL</span>
+        </div>
+      </div>
+      
+      {/* Certificate Details */}
+      <div className="pt-4 flex-grow flex flex-col justify-between gap-4">
+        <div className="space-y-1">
+          <div className="flex justify-between items-center text-[10px] font-mono text-[#777777]">
+            <span>{cert.issuer}</span>
+            <span>{cert.date}</span>
+          </div>
+          <h3 className="text-base font-display font-bold text-[#F4F2ED] group-hover:text-[#D7FF3F] transition-colors leading-tight line-clamp-1 pt-1">
+            {cert.title}
+          </h3>
+        </div>
+
+        <a 
+          href={cert.certificateUrl || cert.image}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[10px] font-mono text-[#D7FF3F] font-bold inline-flex items-center gap-1.5 transition-all duration-300"
+          onClick={(e) => e.stopPropagation()}
+        >
+          VIEW CERTIFICATE <span className="transform group-hover:translate-x-0.5 transition-transform">→</span>
+        </a>
+      </div>
+    </motion.div>
+  );
 
   return (
     <section id="certifications" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
@@ -1207,6 +1278,7 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
             type="button"
             onClick={() => setShowAllCerts((prev) => !prev)}
             aria-expanded={showAllCerts}
+            aria-controls="certs-expandable"
             className="md:hidden px-3.5 py-1.5 bg-[#D7FF3F] text-[#050505] font-display font-bold text-[10px] tracking-widest uppercase flex items-center gap-1.5 cursor-pointer select-none hover:shadow-[0_0_15px_rgba(215,255,63,0.30)] transition-all"
           >
             {showAllCerts ? "Show Less" : "View All"} <span className="text-[12px]">{showAllCerts ? "↑" : "↓"}</span>
@@ -1221,65 +1293,15 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
           </div>
         ) : (
           /* Clean 3-Column Card Grid matching Projects scope, with border-t separator */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-8 border-t border-white/[0.08]">
-            {certificatesData.map((cert, idx) => (
-              <motion.div 
-                key={cert.id} 
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
-                onClick={() => onOpenLightbox(cert)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    onOpenLightbox(cert);
-                  }
-                }}
-                tabIndex={0}
-                role="button"
-                aria-label={`View certificate details for ${cert.title} issued by ${cert.issuer}`}
-                className={`group cursor-pointer flex-col bg-white/[0.025] border border-white/[0.10] rounded-[10px] p-4 transition-all duration-300 hover:-translate-y-[4px] hover:border-[#D7FF3F]/30 hover:shadow-[0_8px_32px_rgba(0,0,0,0.5)] focus:outline-none focus:ring-1 focus:ring-[#D7FF3F] ${
-                  idx > 0 && !showAllCerts ? "hidden md:flex" : "flex"
-                }`}
-              >
-                {/* Certificate Preview container - preserves ratios without distortion */}
-                <div className="aspect-[16/10] w-full overflow-hidden bg-black/40 border border-white/[0.05] rounded-[6px] relative flex items-center justify-center">
-                  <img 
-                    src={cert.image} 
-                    alt={`Credential certificate for ${cert.title} issued by ${cert.issuer}`}
-                    className="w-full h-full object-contain p-2 group-hover:scale-[1.02] transition-transform duration-300"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-[#050505]/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <span className="text-[10px] font-mono text-[#D7FF3F] bg-[#050505] px-3 py-1.5 border border-[#D7FF3F]">VIEW CREDENTIAL</span>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-8 pt-8 border-t border-white/[0.08]">
+            {certificatesData.length > 0 && renderCertCard(certificatesData[0], 0, false)}
+            {certificatesData.length > 1 && (
+              <div id="certs-expandable" className={`expandable-grid ${showAllCerts ? "is-expanded" : ""}`}>
+                <div className="expandable-inner">
+                  {certificatesData.slice(1).map((cert, idx) => renderCertCard(cert, idx + 1, true))}
                 </div>
-                
-                {/* Certificate Details */}
-                <div className="pt-4 flex-grow flex flex-col justify-between gap-4">
-                  <div className="space-y-1">
-                    <div className="flex justify-between items-center text-[10px] font-mono text-[#777777]">
-                      <span>{cert.issuer}</span>
-                      <span>{cert.date}</span>
-                    </div>
-                    <h3 className="text-base font-display font-bold text-[#F4F2ED] group-hover:text-[#D7FF3F] transition-colors leading-tight line-clamp-1 pt-1">
-                      {cert.title}
-                    </h3>
-                  </div>
-
-                  <a 
-                    href={cert.certificateUrl || cert.image}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[10px] font-mono text-[#D7FF3F] font-bold inline-flex items-center gap-1.5 transition-all duration-300"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    VIEW CERTIFICATE <span className="transform group-hover:translate-x-0.5 transition-transform">→</span>
-                  </a>
-                </div>
-              </motion.div>
-            ))}
+              </div>
+            )}
           </div>
         )}
       </div>
