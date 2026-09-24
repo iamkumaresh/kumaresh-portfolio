@@ -739,49 +739,37 @@ const Hero = () => {
 const About = () => {
   return (
     <section id="about" className="py-24 md:py-32 bg-[#050505] border-y border-white/[0.03] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <div className="max-w-[1360px] mx-auto">
+      <motion.div 
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
+        className="max-w-[1360px] mx-auto"
+      >
         
         {/* Core Large Editorial Statement */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-4xl mb-24"
-        >
+        <div className="max-w-4xl mb-24">
           <span className="text-meta text-[#777777] block mb-4">01 / WHO I AM</span>
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-balance text-[#F4F2ED]">
             I BUILD DIGITAL EXPERIENCES WITH <span className="text-[#D7FF3F] italic">CODE</span>, <span className="text-[#D7FF3F]">CURIOSITY</span> AND <span className="text-[#D7FF3F]">LOGIC.</span>
           </h2>
-        </motion.div>
+        </div>
 
         {/* Detailed Columns Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start pt-12 border-t border-white/[0.04]">
           
           {/* Biography Column */}
-          <motion.div 
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-            className="lg:col-span-6 space-y-6 text-[#777777] text-lg md:text-xl font-light leading-relaxed"
-          >
+          <div className="lg:col-span-6 space-y-6 text-[#777777] text-lg md:text-xl font-light leading-relaxed">
             <p>
               I am a proactive learner with a focused specialization in Advanced Data Structures and Algorithms. My passion lies in building scalable, high-impact software solutions and engineering fluid frontend layouts.
             </p>
             <p>
               Beyond coding, I value technical communication, analytical problem-solving, and team collaboration. I believe that the best solutions arise from structured, clean logic and a constant focus on user experience.
             </p>
-          </motion.div>
+          </div>
 
           {/* Soft Skills Column */}
-          <motion.div 
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            className="lg:col-span-3 lg:col-start-8 space-y-6"
-          >
+          <div className="lg:col-span-3 lg:col-start-8 space-y-6">
             <h3 className="text-meta text-[#F4F2ED] border-b border-white/[0.08] pb-2">SOFT SKILLS</h3>
             <ul className="space-y-3 text-[#777777] text-sm font-mono">
               <li className="flex items-center gap-2"><span className="text-[#D7FF3F]">/</span> Technical Communication</li>
@@ -789,16 +777,10 @@ const About = () => {
               <li className="flex items-center gap-2"><span className="text-[#D7FF3F]">/</span> Problem Solving</li>
               <li className="flex items-center gap-2"><span className="text-[#D7FF3F]">/</span> Proactive Learning</li>
             </ul>
-          </motion.div>
+          </div>
 
           {/* Languages Column */}
-          <motion.div 
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-            className="lg:col-span-2 lg:col-start-11 space-y-6"
-          >
+          <div className="lg:col-span-2 lg:col-start-11 space-y-6">
             <h3 className="text-meta text-[#F4F2ED] border-b border-white/[0.08] pb-2">LANGUAGES</h3>
             <div className="space-y-3 text-sm">
               <div>
@@ -814,10 +796,10 @@ const About = () => {
                 <span className="text-[#F4F2ED] font-semibold text-sm">Intermediate</span>
               </div>
             </div>
-          </motion.div>
+          </div>
 
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
@@ -853,17 +835,17 @@ const Education = () => {
 
   return (
     <section id="education" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <div className="max-w-[1360px] mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-24"
-        >
+      <motion.div 
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
+        className="max-w-[1360px] mx-auto"
+      >
+        <div className="mb-24">
           <span className="text-meta text-[#777777] block mb-4">02 / MY ACADEMIC ROAD</span>
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-[#F4F2ED]">EDUCATION.</h2>
-        </motion.div>
+        </div>
 
         {/* Timeline Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-0 relative pt-8 md:pt-16 border-l md:border-l-0 md:border-t border-white/[0.08] pl-6 md:pl-0 md:divide-x md:divide-white/[0.04]">
@@ -872,12 +854,8 @@ const Education = () => {
           <div className="absolute top-0 left-0 w-[1px] h-full bg-white/[0.08] md:hidden" />
 
           {education.map((edu, idx) => (
-            <motion.div 
+            <div 
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: idx * 0.08, duration: 0.6, ease: "easeOut" }}
               className="relative group md:px-8 first:pl-0 last:pr-0"
             >
               {/* Timeline Bullet Point */}
@@ -891,10 +869,10 @@ const Education = () => {
                   {edu.details}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
@@ -928,28 +906,22 @@ const Skills = () => {
 
   return (
     <section id="skills" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <div className="max-w-[1360px] mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-24"
-        >
+      <motion.div 
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
+        className="max-w-[1360px] mx-auto"
+      >
+        <div className="mb-24">
           <span className="text-meta text-[#777777] block mb-4">03 / TECHNICAL CAPABILITIES</span>
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-[#F4F2ED]">SKILL SETS.</h2>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start pt-8 border-t border-white/[0.08]">
           
           {/* Left: Category Titles Directory */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="lg:col-span-6 flex flex-col w-full divide-y divide-white/[0.03]"
-          >
+          <div className="lg:col-span-6 flex flex-col w-full divide-y divide-white/[0.03]">
             {skillCategories.map((cat, idx) => (
               <button
                 key={idx}
@@ -968,16 +940,10 @@ const Skills = () => {
                 {activeCategory === idx && <span className="w-2 h-2 rounded-full bg-[#D7FF3F] shadow-[0_0_8px_#D7FF3F]" />}
               </button>
             ))}
-          </motion.div>
+          </div>
 
           {/* Right: Detailed Skills Display */}
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
-            className="lg:col-span-6 bg-white/[0.01] border border-white/[0.03] rounded-2xl p-8 md:p-10 min-h-[340px] flex flex-col justify-between shadow-2xl"
-          >
+          <div className="lg:col-span-6 bg-white/[0.01] border border-white/[0.03] rounded-2xl p-8 md:p-10 min-h-[340px] flex flex-col justify-between shadow-2xl">
             <div className="space-y-4">
               <span className="text-meta text-[#D7FF3F] text-[10px] font-semibold">// CATEGORY OVERVIEW</span>
               <h3 className="text-3xl font-display font-black text-[#F4F2ED]">{skillCategories[activeCategory].title}</h3>
@@ -997,10 +963,10 @@ const Skills = () => {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
 
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
@@ -1099,12 +1065,8 @@ const Projects = () => {
   };
 
   const renderProjectCard = (project: typeof projects[0], idx: number) => (
-    <motion.div
+    <div
       key={idx}
-      initial={{ opacity: 0, y: 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay: Math.min(idx * 0.08, 0.4), ease: "easeOut" }}
       onClick={() => window.open(project.demoLink, "_blank", "noopener,noreferrer")}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -1171,21 +1133,21 @@ const Projects = () => {
           </a>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 
   return (
     <section id="projects" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <div className="max-w-[1360px] mx-auto">
+      <motion.div 
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
+        className="max-w-[1360px] mx-auto"
+      >
         
         {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 md:mb-16 gap-6"
-        >
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 md:mb-16 gap-6">
           <div>
             <span className="text-meta text-[#777777] block mb-4">04 / SELECTED WORK</span>
             <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-[#F4F2ED]">PROJECTS.</h2>
@@ -1209,7 +1171,7 @@ const Projects = () => {
               {showAllProjects ? "Show Less" : "View All"} <span className="text-[12px] inline-block transition-transform duration-200">{showAllProjects ? "↑" : "↓"}</span>
             </button>
           </div>
-        </motion.div>
+        </div>
 
         {/* Responsive Showcase: Mobile Swipeable Carousel or Expanded Grid, Desktop Responsive Grid */}
         <div 
@@ -1249,7 +1211,7 @@ const Projects = () => {
             ))}
           </div>
         )}
-      </div>
+      </motion.div>
     </section>
   );
 };
@@ -1290,12 +1252,8 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
   };
 
   const renderCertCard = (cert: Certificate, idx: number) => (
-    <motion.div 
+    <div 
       key={cert.id} 
-      initial={{ opacity: 0, y: 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay: Math.min(idx * 0.08, 0.4), ease: "easeOut" }}
       onClick={() => onOpenLightbox(cert)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -1347,21 +1305,21 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
           VIEW CERTIFICATE <span className="inline-block transform group-hover:translate-x-1 transition-transform duration-200">→</span>
         </a>
       </div>
-    </motion.div>
+    </div>
   );
 
   return (
     <section id="certifications" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <div className="max-w-[1360px] mx-auto">
+      <motion.div 
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
+        className="max-w-[1360px] mx-auto"
+      >
         
         {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="flex justify-between items-end mb-16 gap-6"
-        >
+        <div className="flex justify-between items-end mb-16 gap-6">
           <div>
             <span className="text-meta text-[#777777] block mb-4">05 / CREDENTIAL ARCHIVE</span>
             <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-[#F4F2ED]">CERTIFICATIONS.</h2>
@@ -1375,7 +1333,7 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
           >
             {showAllCerts ? "Show Less" : "View All"} <span className="text-[12px] inline-block transition-transform duration-200">{showAllCerts ? "↑" : "↓"}</span>
           </button>
-        </motion.div>
+        </div>
 
         {certificatesData.length === 0 ? (
           <div className="py-20 border-t border-white/[0.04] text-center select-none">
@@ -1425,7 +1383,7 @@ const Certifications = ({ onOpenLightbox }: { onOpenLightbox: (cert: Certificate
             )}
           </>
         )}
-      </div>
+      </motion.div>
     </section>
   );
 };
@@ -1660,17 +1618,17 @@ const ContactForm = () => {
 const Contact = () => {
   return (
     <section id="contact" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
-      <div className="max-w-[1360px] mx-auto">
+      <motion.div 
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
+        className="max-w-[1360px] mx-auto"
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           
           {/* Left Column (Editorial Heading & Links) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 space-y-12"
-          >
+          <div className="lg:col-span-5 space-y-12">
             <div>
               <span className="text-meta text-[#777777] block mb-4">06 / LET'S CONNECT</span>
               <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[1.0] tracking-tighter text-[#F4F2ED]">
@@ -1705,21 +1663,15 @@ const Contact = () => {
               <a href="https://www.instagram.com/_kumares_h" target="_blank" className="hover:text-[#D7FF3F] hover:scale-105 active:scale-95 transition-all duration-150 inline-flex items-center gap-1.5"><Instagram size={14} /> INSTAGRAM</a>
               <a href="https://www.facebook.com/share/18MBiWw7D3/" target="_blank" className="hover:text-[#D7FF3F] hover:scale-105 active:scale-95 transition-all duration-150 inline-flex items-center gap-1.5"><Facebook size={14} /> FACEBOOK</a>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right Column (Message Form) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-7 lg:col-start-6"
-          >
+          <div className="lg:col-span-7 lg:col-start-6">
             <ContactForm />
-          </motion.div>
+          </div>
 
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
