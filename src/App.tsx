@@ -1,4 +1,4 @@
-import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, MotionConfig, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
 import { Github, Linkedin, Mail, ExternalLink, Menu, X, ChevronUp, Send, CheckCircle, Loader2, Instagram, Facebook, Phone } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
 import { certificatesData, Certificate } from "./data/certificates";
@@ -817,65 +817,141 @@ const About = () => {
 
 // --- EDUCATION SECTION COMPONENT ---
 const Education = () => {
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Scroll-linked timeline line animation (draw-in effect synced to scroll)
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 85%", "end 60%"]
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const clampedProgress = useTransform(smoothProgress, (v) => Math.min(Math.max(v, 0), 1));
+
   const education = [
     {
       year: "EXPECTED 2028",
       title: "B.Tech: Computer Science & Engineering",
       institution: "JIS UNIVERSITY — Kolkata",
-      details: "9+ SGPA Grade"
+      details: "9+ SGPA Grade",
+      isCurrent: true
     },
     {
       year: "2024",
       title: "Higher Secondary: Science",
       institution: "Daharkundu Sree Ramkrishna HS",
-      details: "80% Marks"
+      details: "80% Marks",
+      isCurrent: false
     },
     {
       year: "2022",
       title: "Madhyamik",
       institution: "Daharkundu Sree Ramkrishna HS",
-      details: "78% Marks"
+      details: "78% Marks",
+      isCurrent: false
     },
     {
       year: "2018",
       title: "Primary Education",
       institution: "Daharkundu Surya Bag Vidyamandir",
-      details: "A+ Grade"
+      details: "A+ Grade",
+      isCurrent: false
     }
   ];
 
   return (
     <section id="education" className="py-24 md:py-32 bg-[#050505] px-6 sm:px-12 md:px-16 lg:px-24 scroll-mt-28">
       <SectionContainer>
-        <div className="mb-24">
+        {/* Section Header - tightened vertical spacing matching other sections */}
+        <div className="mb-12 md:mb-14">
           <span className="text-meta text-[#777777] block mb-4">02 / MY ACADEMIC ROAD</span>
           <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold leading-[0.9] tracking-tighter text-[#F4F2ED]">EDUCATION.</h2>
         </div>
 
-        {/* Timeline Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-0 relative pt-8 md:pt-16 border-l md:border-l-0 md:border-t border-white/[0.08] pl-6 md:pl-0 md:divide-x md:divide-white/[0.04]">
+        {/* Timeline Container with Animated Draw-in Track */}
+        <div ref={timelineRef} className="relative pt-6 md:pt-8">
           
-          {/* Vertical marker bar on Mobile */}
-          <div className="absolute top-0 left-0 w-[1px] h-full bg-white/[0.08] md:hidden" />
+          {/* Desktop Horizontal Connecting Line (faint base track + animated draw-in) */}
+          <div className="hidden md:block absolute top-0 left-0 right-0 h-[1px] bg-white/[0.04]" />
+          <motion.div 
+            className="hidden md:block absolute top-0 left-0 right-0 h-[1px] bg-white/[0.12] origin-left pointer-events-none"
+            style={{ scaleX: shouldReduceMotion ? 1 : clampedProgress, transformOrigin: "left" }}
+          />
 
-          {education.map((edu, idx) => (
-            <div 
-              key={idx}
-              className="relative group md:px-8 first:pl-0 last:pr-0"
-            >
-              {/* Timeline Bullet Point */}
-              <div className="absolute md:-top-[21px] -left-[31px] md:-left-[5px] w-2.5 h-2.5 rounded-full bg-[#050505] border-2 border-[#D7FF3F] group-hover:scale-150 transition-transform duration-300 z-10" />
-              
-              <div className="space-y-4">
-                <span className="text-meta text-[#D7FF3F] text-[10px]">{edu.year}</span>
-                <h3 className="text-lg md:text-xl font-display font-bold text-[#F4F2ED] leading-snug">{edu.title}</h3>
-                <p className="text-sm text-[#777777] font-light">{edu.institution}</p>
-                <div className="inline-block text-[10px] font-mono text-[#D7FF3F] bg-[#D7FF3F]/5 border border-[#D7FF3F]/10 rounded px-2.5 py-1 uppercase tracking-wider">
-                  {edu.details}
+          {/* Mobile Vertical Connecting Line (faint base track + animated draw-in) */}
+          <div className="md:hidden absolute top-0 left-0 bottom-0 w-[1px] bg-white/[0.04]" />
+          <motion.div 
+            className="md:hidden absolute top-0 left-0 bottom-0 w-[1px] bg-white/[0.12] origin-top pointer-events-none"
+            style={{ scaleY: shouldReduceMotion ? 1 : clampedProgress, transformOrigin: "top" }}
+          />
+
+          {/* Timeline Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-0 relative pl-6 md:pl-0 md:divide-x md:divide-white/[0.04]">
+            {education.map((edu, idx) => (
+              <div 
+                key={idx}
+                className="relative group md:px-6 lg:px-8 first:pl-0 last:pr-0"
+              >
+                {/* Timeline Bullet Point */}
+                {edu.isCurrent ? (
+                  <div className="absolute -left-[29px] top-[3px] md:-left-[5px] md:-top-[37px] w-2.5 h-2.5 z-10 flex items-center justify-center">
+                    {/* Subtle pulsing ping halo - disabled if reduced motion preferred */}
+                    <span className="animate-ping absolute -inset-1 rounded-full bg-[#D7FF3F] opacity-75 motion-reduce:hidden pointer-events-none" />
+                    {/* Solid glowing lime dot */}
+                    <span className="relative block w-2.5 h-2.5 rounded-full bg-[#D7FF3F] shadow-[0_0_10px_rgba(215,255,63,0.5)] border border-[#D7FF3F]" />
+                  </div>
+                ) : (
+                  <div className="absolute -left-[29px] top-[3px] md:-left-[5px] md:-top-[37px] w-2.5 h-2.5 rounded-full bg-[#050505] border-2 border-white/30 group-hover:border-[#D7FF3F] group-hover:scale-125 transition-all duration-300 z-10" />
+                )}
+                
+                {/* Content Card */}
+                <div className="space-y-2.5">
+                  {/* Status / Year Header */}
+                  {edu.isCurrent ? (
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-meta text-[#D7FF3F] text-[10px] font-bold">{edu.year}</span>
+                      <span className="text-[9px] font-mono text-[#D7FF3F] bg-[#D7FF3F]/10 border border-[#D7FF3F]/30 px-1.5 py-0.5 rounded-[3px] uppercase tracking-wider font-semibold select-none">
+                        IN PROGRESS
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-meta text-[#777777] group-hover:text-[#F4F2ED] text-[10px] transition-colors duration-200 block">
+                      {edu.year}
+                    </span>
+                  )}
+
+                  {/* Degree / Course Title */}
+                  <h3 className="text-base md:text-lg font-display font-bold text-[#F4F2ED] group-hover:text-[#D7FF3F] transition-colors leading-snug">
+                    {edu.title}
+                  </h3>
+
+                  {/* Institution Name */}
+                  <p className="text-xs md:text-sm text-[#777777] font-light leading-relaxed">
+                    {edu.institution}
+                  </p>
+
+                  {/* Achievement Badge - Clear visual hierarchy */}
+                  <div className="pt-1">
+                    {edu.isCurrent ? (
+                      <div className="inline-flex items-center text-[10px] font-mono font-bold text-[#050505] bg-[#D7FF3F] rounded px-2.5 py-1 uppercase tracking-wider shadow-[0_0_12px_rgba(215,255,63,0.25)] select-none">
+                        {edu.details}
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center text-[10px] font-mono text-[#F4F2ED]/70 bg-white/[0.02] border border-white/[0.08] rounded px-2.5 py-1 uppercase tracking-wider select-none">
+                        {edu.details}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </SectionContainer>
     </section>
