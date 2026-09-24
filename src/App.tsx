@@ -207,6 +207,27 @@ const Navbar = () => {
 
   return (
     <header>
+      {/* Desktop Brand Wordmark / Monogram - Far Left */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut", delay: 0.10 }}
+        className="fixed top-8 left-6 md:left-8 lg:left-12 z-50 hidden md:flex items-center"
+      >
+        <a 
+          href="#home" 
+          aria-label="Kumaresh Jana Homepage"
+          className="group flex items-center gap-2 px-3.5 bg-white/[0.03] backdrop-blur-[18px] border border-white/[0.08] hover:border-[#D7FF3F]/40 rounded-md h-[40px] transition-all select-none"
+        >
+          <span className="font-display font-extrabold text-sm tracking-tight text-[#F4F2ED] group-hover:text-[#D7FF3F] transition-colors">
+            KJ<span className="text-[#D7FF3F]">.</span>
+          </span>
+          <span className="text-[9px] font-mono tracking-widest text-[#777777] uppercase hidden lg:inline-block border-l border-white/[0.1] pl-2">
+            PORTFOLIO
+          </span>
+        </a>
+      </motion.div>
+
       {/* Floating Center Navbar (Desktop - Stagger: 100ms) */}
       <motion.nav 
         initial={{ opacity: 0, y: -10 }}
